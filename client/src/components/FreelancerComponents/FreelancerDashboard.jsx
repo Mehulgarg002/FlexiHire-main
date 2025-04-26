@@ -20,17 +20,17 @@ export default function FreelancerDashboard() {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        tokenExists(token, navigate, dispatch).then(data => (data == false || JSON.parse(localStorage.getItem('userInfo')).role != "freelancer" || JSON.parse(localStorage.getItem('userInfo'))._id != id) && navigate("/login"))
+        tokenExists(token, navigate, dispatch).then(data => (data === false || JSON.parse(localStorage.getItem('userInfo')).role !== "freelancer" || JSON.parse(localStorage.getItem('userInfo'))._id !== id) && navigate("/login"))
 
         dispatch(myDashboard()).unwrap().then(data => {
             setTimeout(() => {
                 setLoading(false)
                 console.log(data)
-                if (data.status == 404 || data.status == 403) {
+                if (data.status === 404 || data.status === 403) {
                     toast.error(data.msg)
                     navigate('/login')
                 }
-                if (data.status == 505) {
+                if (data.status === 505) {
                     toast.error(data.msg)
                 }
             }, 1000);
@@ -40,7 +40,7 @@ export default function FreelancerDashboard() {
                 toast.error(rejectedValueOrSerializedError)
             }, 1000);
         })
-    }, [])
+    }, [token, navigate, dispatch, id])
 
     return (
         <>
@@ -99,7 +99,7 @@ export default function FreelancerDashboard() {
                                                 Rating
                                             </div>
                                             <div className="body-stat">
-                                                {data?.dashboard?.rating == 0 ? "Not Rated Yet" : data?.dashboard?.rating}
+                                                {data?.dashboard?.rating === 0 ? "Not Rated Yet" : data?.dashboard?.rating}
                                             </div>
                                         </div>
                                         <div className="logo">
@@ -118,7 +118,7 @@ export default function FreelancerDashboard() {
                                         Last Reviews
                                     </div>
                                     <div className="cards">
-                                        {data?.dashboard?.testimonials.length != 0 ?
+                                        {data?.dashboard?.testimonials.length !== 0 ?
                                             <TestimonialSlider role="freelancer" data={data?.dashboard?.testimonials} />
                                             :
                                             <div className='noTestimonials'>You have no reviews for now</div>}

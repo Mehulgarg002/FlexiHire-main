@@ -1,7 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const app = express();
-const cors = require("cors");
+var cors = require("cors");
 const port = process.env.PORT || 3001;
 const MongoConnection = require("./config/database");
 const userRoutes = require("./routes/UserRoutes");
@@ -13,8 +13,8 @@ const Razorpay = require("razorpay");
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cors());
 MongoConnection();
+app.use(cors());
 
 app.use("/user", userRoutes);
 app.use("/freelancer", freelancerRoutes);
